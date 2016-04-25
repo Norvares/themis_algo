@@ -2,10 +2,11 @@ import rethinkdb as r
 import algos
 
 c = r.connect()
-cursor = r.db("themis").table("pages").limit(1).run(c)
+cursor = r.db("themis").table("pages").run(c)
 data = []
 for document in cursor:
     databaseId = document['id']
     print(databaseId)
-    kmeansResult = algos.kmeans([str(document['content']).decode('unicode-escape')])
-    r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
+    data.append(str(document['content']).decode('unicode-escape'))
+print(algos.kmeans(data))
+#r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
