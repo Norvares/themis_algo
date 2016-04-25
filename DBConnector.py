@@ -7,5 +7,5 @@ data = []
 for document in cursor:
     databaseId = document['id']
     print(databaseId)
-    kmeansResult = algos.kmeans(str(document['content']).decode('unicode-escape'))
+    kmeansResult = algos.kmeans([str(document['content']).decode('unicode-escape')])
     r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
