@@ -4,7 +4,7 @@ from sklearn.cluster import KMeans
 
 def kmeans(data):
     result = []
-    true_k = 1
+    true_k = 13
     vectorizer = TfidfVectorizer(stop_words='english')
     X = vectorizer.fit_transform(data)
 
@@ -13,7 +13,7 @@ def kmeans(data):
     order_centroids = model.cluster_centers_.argsort()[:, ::-1]
     terms = vectorizer.get_feature_names()
     for i in range(true_k):
-        for ind in order_centroids[i, :10]:
+        for ind in order_centroids[i, :1]:
             result.append(' %s' % terms[ind])
     return result
 
