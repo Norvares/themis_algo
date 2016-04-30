@@ -16,4 +16,3 @@ def kmeans(data):
         for ind in order_centroids[i, :1]:
             result.append(' %s' % terms[ind])
     return result
-
