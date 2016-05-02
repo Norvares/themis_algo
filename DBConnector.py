@@ -65,9 +65,12 @@ def runAlgo(limit_, data_, n_features_, true_k_, init_, n_init_, max_iter_, tol_
         #r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
 
 
-def runAlgo_alt():
+def runAlgo_alt(limit):
     c = r.connect()
-    cursor = r.db("themis").table("pages").run(c)
+    if (limit == 0):
+        cursor = r.db("themis").table("pages").run(c)
+    else:
+        cursor = r.db("themis").table("pages").limit(limit).run(c)
     i = 0
     data = []
     for document in cursor:
