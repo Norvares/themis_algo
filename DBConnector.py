@@ -75,7 +75,7 @@ def runAlgo_alt():
         i = i + 1
         print(str(i) + " " + databaseId)
         data.append(str(document['content']).decode('unicode-escape'))
-    print(algos.kmeans(data))
+    print(algos.kmeans_alt(data))
     # r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
 
 
