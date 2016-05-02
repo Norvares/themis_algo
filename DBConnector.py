@@ -7,11 +7,12 @@ def storeInFile(limit):
     connection = rdb.connect()
     cursor = rdb.db("themis").table("pages").limit(limit).run(connection)
     dset = dataFile.create_dataset("test", (1,))
+    dir(dset)
     i = 0
     for document in cursor:
         id = document['id']
         i=i+1
         print(str(i) + " " + id)
-        dset.append(str(document['content']).decode('unicode-escape'))
+        dset[i]=(str(document['content']).decode('unicode-escape'))
 
 #r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
