@@ -67,7 +67,7 @@ def runAlgo(limit_, data_, n_features_, true_k_, init_, n_init_, max_iter_, tol_
 
 def runAlgo_alt():
     c = r.connect()
-    cursor = r.db("themis").table("pages").limit(5000).run(c)
+    cursor = r.db("themis").table("pages").run(c)
     i = 0
     data = []
     for document in cursor:
