@@ -1,0 +1,29 @@
+{
+  "2016-05-02_11:37:12": {
+    "Config": {
+      "n_cluster": "12",
+      "max_iter": "300"
+    },
+    "Cluster A": {
+      "articleIds": [
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895",
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895",
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895"
+      ]
+    },
+    "Cluster B": {
+      "articleIds": [
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895",
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895",
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895"
+      ]
+    },
+    "Cluster C": {
+      "articleIds": [
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895",
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895",
+        "02ff667d-16b8-4b4a-840f-c12bd3c71895"
+      ]
+    }
+  }
+}
