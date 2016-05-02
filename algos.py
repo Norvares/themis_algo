@@ -29,11 +29,10 @@ def kmeans_alt(data):
     model.fit_predict(X)
     predictions = (model.predict(X))
     i = 0
-    for clusterId in predictions:
-        print(clusterId)
-        print()
+    for i in range(len(predictions)):
         print(data[i])
-        i = i+1
+        print()
+        print(predictions[i])
     order_centroids = model.cluster_centers_.argsort()[:, ::-1]
     terms = vectorizer.get_feature_names()
     for i in range(true_k):
