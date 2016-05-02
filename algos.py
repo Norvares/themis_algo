@@ -26,7 +26,7 @@ def kmeans_alt(data):
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1)
-    model.fit_predict(X)
+    print(model.fit_predict(X))
     order_centroids = model.cluster_centers_.argsort()[:, ::-1]
     terms = vectorizer.get_feature_names()
     for i in range(true_k):
