@@ -21,15 +21,22 @@ def kmeans(data, n_features, true_k, init, n_init, max_iter, tol, precompute_dis
 
 def kmeans_alt(data):
     result = []
-    true_k = 1
+    true_k = 5
     vectorizer = TfidfVectorizer(stop_words='english')
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1)
-    print(model.fit_predict(X))
+    model.fit_predict(X)
+    predictions = (model.predict(X))
+    i = 0
+    for clusterId in predictions:
+        print(clusterId)
+        print()
+        print(data[i])
+        i = i+1
     order_centroids = model.cluster_centers_.argsort()[:, ::-1]
     terms = vectorizer.get_feature_names()
     for i in range(true_k):
-        for ind in order_centroids[i, :10]:
+        for ind in order_centroids[i, :3]:
             result.append(' %s' % terms[ind])
     return result
