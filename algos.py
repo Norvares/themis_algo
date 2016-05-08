@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
+import datetime
 
 def kmeans(data, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
@@ -26,12 +27,19 @@ def kmeans_alt(data):
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1)
+
+    #print('Params')
+    #print(model.get_params())
+    jsn = {}
+    jsn['id'] = str(datetime.datetime.now())
+    jsn['config'] = model.get_params()
+    print(jsn)
     model.fit_predict(X)
     predictions = (model.predict(X))
     i = 0
     for i in range(len(predictions)):
-        print(data[i])
-        print()
+#        print(data[i])
+ #       print()
         print(predictions[i])
     order_centroids = model.cluster_centers_.argsort()[:, ::-1]
     terms = vectorizer.get_feature_names()

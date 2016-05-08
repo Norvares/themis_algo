@@ -68,18 +68,18 @@ def runAlgo(limit_, data_, n_features_, true_k_, init_, n_init_, max_iter_, tol_
 def runAlgo_alt(limit):
     c = r.connect()
     if (limit == 0):
-        cursor = r.db("themis").table("pages").run(c)
+        cursor = r.db("themis").table("pagesNew2").run(c)
     else:
-        cursor = r.db("themis").table("pages").limit(limit).run(c)
+        cursor = r.db("themis").table("pagesNew2").limit(limit).run(c)
     i = 0
     data = []
     for document in cursor:
         databaseId = document['id']
         i = i + 1
-        print(str(i) + " " + databaseId)
+ #       print(str(i) + " " + databaseId)
         data.append(str(document['content']).decode('unicode-escape'))
-    print(data)
-    # print(algos.kmeans_alt(data))
+#    print(data)
+    print(algos.kmeans_alt(data))
     # r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
 
 
