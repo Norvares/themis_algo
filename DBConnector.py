@@ -36,31 +36,20 @@ n_jobs (default: 1)
 '''
 
 
-# def runAlgo(limit_, n_features_, true_k_, init_, n_init_, max_iter_, tol_, precompute_distance_,
-#             verbose_, random_state_, copy_x_, n_jobs_):
-    # limit = limit_
-    # n_features = n_features_
-    # true_k = true_k_
-    # init = init_
-    # n_init = n_init_
-    # max_iter = max_iter_
-    # tol = tol_
-    # precompute_distance = precompute_distance_
-    # verbose = verbose_
-    # random_state = random_state_
-    # copy_x = copy_x_
-    # n_jobs = n_jobs_
 def runAlgo():
     if(check_params()):
         c = r.connect()
-        cursor = r.db("themis").table("pagesNew2").limit(limit).run(c)
+        if(limit == 0):
+            cursor = r.db("themis").table("pagesNew2").run(c)
+        else:
+            cursor = r.db("themis").table("pagesNew2").limit(limit).run(c)
         i = 0
         data = []
         ids = []
         for document in cursor:
             ids.append(document['id'])
             data.append(str(document['content']).decode('unicode-escape'))
-        print(algos.kmeans(data, ids, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs))
+        print(algos.kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs))
         #r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
 
 
@@ -82,7 +71,7 @@ def runAlgo_alt(limit):
 
 def check_params():
     # limit => integer und > 0
-    if not isinstance(limit, int) or limit <= 0:
+    if not isinstance(limit, int) or limit < 0:
         print('limit invalid')
         return False
 
@@ -151,3 +140,5 @@ verbose = args.v
 random_state = args.r
 copy_x = args.c
 n_jobs = args.nj
+
+runAlgo()

@@ -4,7 +4,7 @@ import rethinkdb as r
 import datetime
 import json
 
-def kmeans(data, ids, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
+def kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
     result = []
     vectorizer = TfidfVectorizer(stop_words='english')
@@ -17,7 +17,9 @@ def kmeans(data, ids, n_features, true_k, init, n_init, max_iter, tol, precomput
     # one result json per run
     jsn = {}    # result cluster json with params, features and docs
     jsn['id'] = str(datetime.datetime.now())    # set ID
-    jsn['config'] = model.get_params()  # set CONFIG/ PARAMS
+    params_conf = model.get_params()
+    params_conf['limit'] = limit
+    jsn['config'] = params_conf  # set CONFIG/ PARAMS
     jsn['data'] = []    # init DATA Array
 
     model.fit_predict(X)
