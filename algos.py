@@ -59,8 +59,7 @@ def kmeans_alt(data, ids):
     print('json')
     print(jsn)
 
-    # TODO: create Table "debug"
     c = r.connect()
-    writeResult = r.db("themis").table("debug").insert(jsn).run(c)
+    writeResult = r.db("themis").table("results").insert(jsn).run(c)
 
     return result
