@@ -1,6 +1,6 @@
-#import rethinkdb as r
-#import algos
-#import re
+import rethinkdb as r
+import algos
+import re
 import argparse
 
 
@@ -53,15 +53,14 @@ n_jobs (default: 1)
 def runAlgo():
     if(check_params()):
         c = r.connect()
-        cursor = r.db("themis").table("pages").limit(limit).run(c)
+        cursor = r.db("themis").table("pagesNew2").limit(limit).run(c)
         i = 0
         data = []
+        ids = []
         for document in cursor:
-            databaseId = document['id']
-            i=i+1
-            print(str(i) + " " + databaseId)
+            ids.append(document['id'])
             data.append(str(document['content']).decode('unicode-escape'))
-        print(algos.kmeans(data, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs))
+        print(algos.kmeans(data, ids, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs))
         #r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
 
 
@@ -129,6 +128,7 @@ def check_params():
 
     return True
 
+# Parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-l', help = 'limit help', type = int, default = 100)
 parser.add_argument('-nf', help = 'n_features help', type = int, default = 5)
