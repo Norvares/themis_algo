@@ -107,13 +107,8 @@ def check_params():
         return False
 
     # tol => float und <= 1
-    if not isinstance(tol, float) or max_iter > 1:
+    if not isinstance(tol, float) or tol > 1:
         print('tol invalid')
-        return False
-
-    # precompute_distance => bool
-    if not isinstance(precompute_distance, bool):
-        print('precompute_distance invalid')
         return False
 
     # verbose => int

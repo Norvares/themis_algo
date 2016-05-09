@@ -2,6 +2,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 import rethinkdb as r
 import datetime
+import json
 
 def kmeans(data, ids, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
