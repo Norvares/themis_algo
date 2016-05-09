@@ -1,6 +1,7 @@
-import rethinkdb as r
-import algos
-import re
+#import rethinkdb as r
+#import algos
+#import re
+import argparse
 
 
 global limit
@@ -35,22 +36,21 @@ n_jobs (default: 1)
 '''
 
 
-def runAlgo(limit_, data_, n_features_, true_k_, init_, n_init_, max_iter_, tol_, precompute_distance_,
-            verbose_, random_state_, copy_x_, n_jobs_):
-    limit = limit_
-    data = data_
-    n_features = n_features_
-    true_k = true_k_
-    init = init_
-    n_init = n_init_
-    max_iter = max_iter_
-    tol = tol_
-    precompute_distance = precompute_distance_
-    verbose = verbose_
-    random_state = random_state_
-    copy_x = copy_x_
-    n_jobs = n_jobs_
-
+# def runAlgo(limit_, n_features_, true_k_, init_, n_init_, max_iter_, tol_, precompute_distance_,
+#             verbose_, random_state_, copy_x_, n_jobs_):
+    # limit = limit_
+    # n_features = n_features_
+    # true_k = true_k_
+    # init = init_
+    # n_init = n_init_
+    # max_iter = max_iter_
+    # tol = tol_
+    # precompute_distance = precompute_distance_
+    # verbose = verbose_
+    # random_state = random_state_
+    # copy_x = copy_x_
+    # n_jobs = n_jobs_
+def runAlgo():
     if(check_params()):
         c = r.connect()
         cursor = r.db("themis").table("pages").limit(limit).run(c)
@@ -129,3 +129,31 @@ def check_params():
         return False
 
     return True
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-l', help = 'limit help', type = int, default = 100)
+parser.add_argument('-nf', help = 'n_features help', type = int, default = 5)
+parser.add_argument('-tk', help = 'true_k help', type = int, default = 8)
+parser.add_argument('-i', help = 'init help', default = 'k-means++')
+parser.add_argument('-ni', help = 'n_init help', type = int, default = 10)
+parser.add_argument('-m', help = 'max_iter help', type = int, default = 300)
+parser.add_argument('-t', help = 'tol help', type = float, default = 0.0001)
+parser.add_argument('-p', help = 'precompute_distance help', default = 'auto')
+parser.add_argument('-v', help = 'verbose help', type = int, default = 0)
+parser.add_argument('-r', help = 'random_state help', default = None)
+parser.add_argument('-c', help = 'copy_x help', type = bool, default = True)
+parser.add_argument('-nj', help = 'n_jobs help', default = 1)
+args = parser.parse_args()
+
+limit = args.l
+n_features = args.nf
+true_k = args.tk
+init = args.i
+n_init = args.ni
+max_iter = args.m
+tol = args.t
+precompute_distance = args.p
+verbose = args.v
+random_state = args.r
+copy_x = args.c
+n_jobs = args.nj
