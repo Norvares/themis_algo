@@ -1,3 +1,3 @@
 from DBConnector import runAlgo_alt
 
-runAlgo_alt(1)
+runAlgo_alt(100)
