@@ -37,12 +37,15 @@ n_jobs (default: 1)
 
 
 def runAlgo():
+    table = 'pagesNew2'
+    db = 'themis'
     if(check_params()):
         c = r.connect()
         if(limit == 0):
-            cursor = r.db("themis").table("pagesNew2").run(c)
+            count_ = r.db(db).table(table).count().run(c)
+            cursor = r.db(db).table(table).limit(count_).run(c)
         else:
-            cursor = r.db("themis").table("pagesNew2").limit(limit).run(c)
+            cursor = r.db(db).table(table).limit(limit).run(c)
         i = 0
         data = []
         ids = []
@@ -56,9 +59,9 @@ def runAlgo():
 def runAlgo_alt(limit):
     c = r.connect()
     if (limit == 0):
-        cursor = r.db("themis").table("pagesNew2").run(c)
+        cursor = r.db(db).table(table).run(c)
     else:
-        cursor = r.db("themis").table("pagesNew2").limit(limit).run(c)
+        cursor = r.db(db).table(table).limit(limit).run(c)
     i = 0
     data = []
     ids = []
