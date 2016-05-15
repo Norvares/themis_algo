@@ -46,20 +46,8 @@ def runAlgo():
             cursor = r.db(db).table(table).limit(count_).run(c)
         else:
             cursor = r.db(db).table(table).limit(limit).run(c)
-   #     data = []
-  #      ids = []
- #       data_json = []  #
-#        for document in cursor:
-            # js = {} #
-            # js['id'] = document['id']   #
-            # js['title'] = document['title'] #
-            # js['uri'] = document['uri'] #
-            # js['content'] = str(document['content']).decode('unicode-escape') #
-            # data_json.append(js)    #
-    #        ids.append(document['id'])
-     #       data.append(str(document['content']).decode('unicode-escape'))
-        print(algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs))
-        #print(algos.kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs))
+
+        algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs)
         #r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
 
 

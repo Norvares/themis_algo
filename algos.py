@@ -4,8 +4,7 @@ import rethinkdb as r
 import datetime
 import json
 
-#def kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
-           #verbose, random_state, copy_x, n_jobs):
+
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
     data = []
@@ -46,7 +45,6 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             detail_jsn['title'] = titles[i]
             detail_jsn['uri'] = uris[i]
             predict_map[predictions[i]].append(detail_jsn)
-            #predict_map[predictions[i]].append(ids[i])  # append articleId to dict
         else:
             predict_map[predictions[i]] = []    # create new array for articleIds
 
@@ -60,17 +58,12 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             result.append(' %s' % terms[ind])
         jsn_tmp['features'] = ary_tmp_feat   # set array of features
         jsn_tmp['articles'] = predict_map[i]  # set array of docs
-        #jsn_tmp['articleIds'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
-    #print('json')
-    #print(jsn)
     print json.dumps(jsn, sort_keys = True, indent = 4)
 
     c = r.connect()
     writeResult = r.db("themis").table("results").insert(jsn).run(c)
-
-    return result
-
+    
 
 def kmeans_alt(data, ids):
     result = []
