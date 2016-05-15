@@ -10,19 +10,35 @@
         "dasda",
         "alksjdlaksd"
       ],
-      "articleIds": [
-        "dlakjsldkjasd",
-        "jalskdjalksjdlkas"
+      "articles": [
+        {
+          "articleId": "dlakjsldkjasd",
+          "title": "Foo und Bla",
+          "uri": "www.example.de"
+        },
+        {
+          "articleId": "jalskdjalksjdlkas",
+          "title": "Blub",
+          "uri": "www.dummy.com"
+        }
       ]
     },
     {
       "features": [
-        "dasda",
-        "alksjdlaksd"
+        "djvdhgiuheiubheiug",
+        "dfiobjndkjiu"
       ],
-      "articleIds": [
-        "dlakjsldkjasd",
-        "jalskdjalksjdlkas"
+      "articles": [
+        {
+          "articleId": "dfgo",
+          "title": "no problem",
+          "uri": "www.autsch.de"
+        },
+        {
+          "articleId": "jsjdlkas",
+          "title": "CU",
+          "uri": "www.moin.io"
+        }
       ]
     }
   ]

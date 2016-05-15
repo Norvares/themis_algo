@@ -4,8 +4,20 @@ import rethinkdb as r
 import datetime
 import json
 
-def kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
+#def kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
+           #verbose, random_state, copy_x, n_jobs):
+def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
+    data = []
+    ids = []
+    titles = []
+    uris = []
+    for document in cursor:
+        data.append(str(document['content']).decode('unicode-escape'))
+        ids.append(document['id'])
+        titles.append(document['title'])
+        uris.append(document['uri'])
+
     result = []
     vectorizer = TfidfVectorizer(stop_words='english')
     X = vectorizer.fit_transform(data)
@@ -24,11 +36,17 @@ def kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, pr
 
     model.fit_predict(X)
     predictions = (model.predict(X))
-    predict_map = {}    # init dict, collect all articleIds per cluster
+    #predict_map = {}    # init dict, collect all articleIds per cluster
+    predict_map = {}    # init dict, collect all article details per cluster
     i = 0
     for i in range(len(predictions)):
         if(predict_map.has_key(predictions[i])):
-            predict_map[predictions[i]].append(ids[i])  # append articleId to dict
+            detail_jsn = {}
+            detail_jsn['articleId'] = ids[i]
+            detail_jsn['title'] = titles[i]
+            detail_jsn['uri'] = uris[i]
+            predict_map[predictions[i]].append(detail_jsn)
+            #predict_map[predictions[i]].append(ids[i])  # append articleId to dict
         else:
             predict_map[predictions[i]] = []    # create new array for articleIds
 
@@ -37,12 +55,12 @@ def kmeans(data, ids, limit, n_features, true_k, init, n_init, max_iter, tol, pr
     for i in range(true_k):
         jsn_tmp = {}    # temp json for each cluster
         ary_tmp_feat = []   # init temp array of features
-        ary_tmp_docs = []   # init temp array of docs/id
         for ind in order_centroids[i, :n_features]:
             ary_tmp_feat.append(' %s' % terms[ind])  # append features
             result.append(' %s' % terms[ind])
         jsn_tmp['features'] = ary_tmp_feat   # set array of features
-        jsn_tmp['articleIds'] = predict_map[i]  # set array of docs
+        jsn_tmp['articles'] = predict_map[i]  # set array of docs
+        #jsn_tmp['articleIds'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
     #print('json')
     #print(jsn)
