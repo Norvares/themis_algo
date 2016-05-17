@@ -27,7 +27,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
 
     # one result json per run
     jsn = {}    # result cluster json with params, features and docs
-    jsn['id'] = str(datetime.datetime.now())    # set ID
+    jsn['createdAt'] = str(datetime.datetime.now())    # set ID
     params_conf = model.get_params()
     params_conf['limit'] = limit
     jsn['config'] = params_conf  # set CONFIG/ PARAMS
