@@ -1,6 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
-from nltk.stem.snowball import SnowballStemmer
+from nltk.stem.lancaster import LancasterStemmer
 import rethinkdb as r
 import datetime
 import json
@@ -13,10 +13,10 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     uris = []
     for document in cursor:
         text_string = (str(document['content']).decode('unicode-escape'))
-        stemmer = SnowballStemmer("english")
+        stemmer = LancasterStemmer()
         words = ' '.join([stemmer.stem(word) for word in text_string.split()])
         data.append(words)
-        print data
+        print
         ids.append(document['id'])
         titles.append(document['title'])
         uris.append(document['uri'])
