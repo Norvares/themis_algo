@@ -5,7 +5,6 @@ import rethinkdb as r
 import datetime
 import json
 
-
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
     data = []
@@ -17,6 +16,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         stemmer = SnowballStemmer("english")
         words = ' '.join([stemmer.stem(word) for word in text_string.split()])
         data.append(words)
+        print data
         ids.append(document['id'])
         titles.append(document['title'])
         uris.append(document['uri'])
@@ -63,10 +63,10 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         jsn_tmp['features'] = ary_tmp_feat   # set array of features
         jsn_tmp['articles'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
-    print json.dumps(jsn, sort_keys = True, indent = 4)
+    #print json.dumps(jsn, sort_keys = True, indent = 4)
 
-    c = r.connect()
-    writeResult = r.db("themis").table("results").insert(jsn).run(c)
+    #c = r.connect()
+    #writeResult = r.db("themis").table("results").insert(jsn).run(c)
 
 
 def kmeans_alt(data, ids):
