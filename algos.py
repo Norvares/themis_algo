@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
+from nltk.stem.snowball import SnowballStemmer
 import rethinkdb as r
 import datetime
 import json
@@ -12,7 +13,10 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     titles = []
     uris = []
     for document in cursor:
-        data.append(str(document['content']).decode('unicode-escape'))
+        text_string = (str(document['content']).decode('unicode-escape'))
+        stemmer = SnowballStemmer("english")
+        words = ' '.join([stemmer.stem(word) for word in text_string.split()])
+        data.append(words)
         ids.append(document['id'])
         titles.append(document['title'])
         uris.append(document['uri'])
@@ -63,7 +67,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
 
     c = r.connect()
     writeResult = r.db("themis").table("results").insert(jsn).run(c)
-    
+
 
 def kmeans_alt(data, ids):
     result = []
