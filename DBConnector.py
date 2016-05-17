@@ -47,25 +47,8 @@ def runAlgo():
         else:
             cursor = r.db(db).table(table).limit(limit).run(c)
 
-        algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs)
-        #r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
-
-
-def runAlgo_alt(limit):
-    c = r.connect()
-    if (limit == 0):
-        cursor = r.db(db).table(table).run(c)
-    else:
-        cursor = r.db(db).table(table).limit(limit).run(c)
-    i = 0
-    data = []
-    ids = []
-    for document in cursor:
-        ids.append(document['id'])
-        data.append(str(document['content']).decode('unicode-escape'))
-    print(algos.kmeans_alt(data, ids))
-    # r.db("themis").table("pages").get(databaseId).update({"cluster": kmeansResult}).run(c)
-
+        jsonResult = algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs)
+        r.db("themis").table("results").insert(jsonResult).run(c)
 
 def check_params():
     # limit => integer und > 0
