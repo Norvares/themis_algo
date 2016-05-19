@@ -7,15 +7,14 @@ var = raw_input("Please enter something: ")
 
 exampleArray = [var]
 
-def processLanguage():
+def onlyNounsAndNames():
     try:
+        var output = ''
         for item in exampleArray:
             tokenized = nltk.word_tokenize(item)
             tagged = nltk.pos_tag(tokenized)
-            print tagged
-            #if tag in ('NN')]
-
-            #time.sleep(555)
+            words = ' '.join(word for word,tag in tagged if tag in ('NN', 'NNP'))
+            print words
 
 
     except Exception, e:
