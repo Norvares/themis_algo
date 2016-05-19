@@ -1,4 +1,6 @@
 import nltk
+import re
+import time
 
 
 var = raw_input("Please enter something: ")
@@ -10,7 +12,7 @@ def processLanguage():
         for item in exampleArray:
             tokenized = nltk.word_tokenize(item)
             tagged = nltk.pos_tag(tokenized)
-            print [(word, tag) for word, tag in tagged if tag in ('NN', 'VB')]
+            print [(word, tag) for word, tag in tagged if tag in ('NN')]
 
             time.sleep(555)
 
