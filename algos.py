@@ -4,6 +4,7 @@ from nltk.stem.lancaster import LancasterStemmer
 import rethinkdb as r
 import datetime
 import json
+import preprocess
 
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
@@ -13,8 +14,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     uris = []
     for document in cursor:
         text_string = (str(document['content']).decode('unicode-escape'))
-        stemmer = LancasterStemmer()
-        words = ' '.join([stemmer.stem(word) for word in text_string.split()])
+        words = preprocess.onlyNounsAndNames(text_string)
         data.append(words)
         ids.append(document['id'])
         titles.append(document['title'])
@@ -106,7 +106,7 @@ def kmeans_alt(data, ids):
     print('json')
     print(jsn)
 
-    c = r.connect()
-    writeResult = r.db("themis").table("results").insert(jsn).run(c)
+#    c = r.connect()
+#    writeResult = r.db("themis").table("results").insert(jsn).run(c)
 
     return result
