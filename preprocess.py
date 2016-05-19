@@ -9,7 +9,6 @@ exampleArray = [var]
 
 def onlyNounsAndNames():
     try:
-        var output = ''
         for item in exampleArray:
             tokenized = nltk.word_tokenize(item)
             tagged = nltk.pos_tag(tokenized)
