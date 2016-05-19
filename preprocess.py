@@ -19,4 +19,4 @@ def onlyNounsAndNames():
     except Exception, e:
         print str(e)
 
-processLanguage()
+onlyNounsAndNames()
