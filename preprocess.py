@@ -12,9 +12,10 @@ def processLanguage():
         for item in exampleArray:
             tokenized = nltk.word_tokenize(item)
             tagged = nltk.pos_tag(tokenized)
-            print [(word, tag) for word, tag in tagged if tag in ('NN')]
+            print tagged
+            #if tag in ('NN')]
 
-            time.sleep(555)
+            #time.sleep(555)
 
 
     except Exception, e:
