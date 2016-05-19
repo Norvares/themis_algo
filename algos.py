@@ -19,7 +19,6 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         ids.append(document['id'])
         titles.append(document['title'])
         uris.append(document['uri'])
-        print data
 
     result = []
     vectorizer = TfidfVectorizer(stop_words='english')
@@ -64,6 +63,8 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         jsn_tmp['articles'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
     print json.dumps(jsn, sort_keys = True, indent = 4)
+#Testausgabe
+    print data
 
     #c = r.connect()
     #writeResult = r.db("themis").table("results").insert(jsn).run(c)
