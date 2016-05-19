@@ -5,7 +5,7 @@ import time
 
 var = raw_input("Please enter something: ")
 
-content = 'Obama is fighting Putin'
+example = 'Obama is fighting Putin'
 
 def onlyNounsAndNames(content):
     try:
@@ -19,4 +19,4 @@ def onlyNounsAndNames(content):
     except Exception, e:
         print str(e)
 
-onlyNounsAndNames()
+onlyNounsAndNames(example)
