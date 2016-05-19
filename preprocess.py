@@ -5,11 +5,11 @@ import time
 
 var = raw_input("Please enter something: ")
 
-exampleArray = [var]
+content = 'Obama is fighting Putin'
 
-def onlyNounsAndNames():
+def onlyNounsAndNames(content):
     try:
-        for item in exampleArray:
+        for item in content:
             tokenized = nltk.word_tokenize(item)
             tagged = nltk.pos_tag(tokenized)
             words = ' '.join(word for word,tag in tagged if tag in ('NN', 'NNP'))
