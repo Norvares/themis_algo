@@ -37,6 +37,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     model.fit_predict(X)
     labels = model.labels_
     score = metrics.silhouette_score(X, labels, metric='euclidean')
+    evaluationContent = []
     evaluationContent['SilhouetteCoefficient'] = score
     jsn['evaluation'] = evaluationContent
     predictions = (model.predict(X))
