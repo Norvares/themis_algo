@@ -1,5 +1,8 @@
 {
   "id": "dlkjalksdjlaksjd",
+  "evaluation": {
+      "SilhouetteCoefficient": "0.4"
+  },
   "config": {
     "n_cluster": "12",
     "max_iter": "300"
