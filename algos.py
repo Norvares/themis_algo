@@ -16,7 +16,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         data.append(str(document['content']).decode('unicode-escape'))
         ids.append(document['id'])
         titles.append(document['title'])
-        uris.append(document['uri'])
+        uris.append(document['url'])
 
     result = []
     vectorizer = TfidfVectorizer(stop_words='english')
