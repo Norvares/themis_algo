@@ -1,6 +1,5 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
-from nltk.stem.lancaster import LancasterStemmer
 import rethinkdb as r
 import datetime
 import json
