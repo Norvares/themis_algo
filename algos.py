@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
+from sklearn import metrics
 import rethinkdb as r
 import datetime
 import json
@@ -34,6 +35,11 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     jsn['data'] = []    # init DATA Array
 
     model.fit_predict(X)
+    labels = model.labels_
+    score = metrics.silhouette_score(X, labels, metric='euclidean')
+    evaluationContent = {}
+    evaluationContent['SilhouetteCoefficient'] = score
+    jsn['evaluation'] = evaluationContent
     predictions = (model.predict(X))
     #predict_map = {}    # init dict, collect all articleIds per cluster
     predict_map = {}    # init dict, collect all article details per cluster
