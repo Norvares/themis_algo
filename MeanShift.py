@@ -31,38 +31,28 @@ def meanshift(cursor):
     for document in cursor:
         data.append(str(document['content']).decode('unicode-escape'))
 
-    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer = TfidfVectorizer(stop_words='english', max_df=0.95, min_df=2, max_features=10000)
     X = vectorizer.fit_transform(data)
-    Y = X.toarray()
-    print(Y)
-    print('--')
-    print(X)
+    X = X.toarray()
 
-    # normalize dataset for easier parameter selection
-    Y = StandardScaler().fit_transform(Y)
+   # normalize dataset for easier parameter selection
+    X = StandardScaler().fit_transform(X)
 
     # estimate bandwidth for mean shift
-    bandwidth = estimate_bandwidth(Y, quantile=0.2)
+    bandwidth = estimate_bandwidth(X, quantile=0.2)
 
     # create clustering estimator
     ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
+    ms.fit(X)
 
-    foo = ms.fit_predict(Y)
-    print(foo)
- 
-    if hasattr(ms, 'labels_'):
-        y_pred = ms.labels_.astype(np.int)
-    else:
-        y_pred = ms.predict(Y)
-
-#    cluster_centers = ms.cluster_centers_
-#    print(cluster_centers)
     labels_unique = np.unique(ms.labels_)
     n_clusters_ = len(labels_unique)
     print("number of estimated clusters : %d" % n_clusters_)
+    print(labels_unique)
+    print('labels: die Werte sind < 0, und werden auf 0 gerundet')
+    print(ms.labels_)
 
-    print(y_pred)
-    return True
+    return n_clusters_
 
 
 def check_params():
