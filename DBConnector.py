@@ -3,7 +3,6 @@ import algos
 import re
 import argparse
 
-
 global limit
 global data
 global n_features
@@ -17,6 +16,7 @@ global verbose
 global random_state
 global copy_x
 global n_jobs
+global preprocessing
 '''
 Parameter Liste:
 limit = max. Anzahl zu ladener Datensaetze
@@ -47,7 +47,7 @@ def runAlgo():
         else:
             cursor = r.db(db).table(table).limit(limit).run(c)
 
-        jsonResult = algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs)
+        jsonResult = algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs, preprocessing)
         r.db("themis").table("results").insert(jsonResult).run(c)
 
 def check_params():
@@ -107,6 +107,7 @@ parser.add_argument('-v', help = 'verbose help', type = int, default = 0)
 parser.add_argument('-r', help = 'random_state help', default = None)
 parser.add_argument('-c', help = 'copy_x help', type = bool, default = True)
 parser.add_argument('-nj', help = 'n_jobs help', default = 1)
+parser.add_argument('-pp', help = 'preprocessing', default = 'None')
 args = parser.parse_args()
 
 limit = args.l
@@ -121,5 +122,6 @@ verbose = args.v
 random_state = args.r
 copy_x = args.c
 n_jobs = args.nj
+preprocessing = args.pp
 
 runAlgo()

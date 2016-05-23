@@ -8,18 +8,43 @@ import preprocess
 
 
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
-           verbose, random_state, copy_x, n_jobs):
+           verbose, random_state, copy_x, n_jobs, preprocessing):
     data = []
     ids = []
     titles = []
     uris = []
-    for document in cursor:
-        text_string = (str(document['content']).decode('unicode-escape'))
-        words = preprocess.lemmatizer(text_string)
-        data.append(words)
-        ids.append(document['id'])
-        titles.append(document['title'])
-        uris.append(document['url'])
+
+    if (preprocessing == "lemmatizer"):
+        for document in cursor:
+            text_string = (str(document['content']).decode('unicode-escape'))
+            words = preprocess.lemmatizer(text_string)
+            data.append(words)
+            ids.append(document['id'])
+            titles.append(document['title'])
+            uris.append(document['url'])
+    else if (preprocessing == "stemmer"):
+        for document in cursor:
+            text_string = (str(document['content']).decode('unicode-escape'))
+            words = preprocess.stemmer(text_string)
+            data.append(words)
+            ids.append(document['id'])
+            titles.append(document['title'])
+            uris.append(document['url'])
+    else if (preprocessing == "onlyNounceAndNames"):
+        for document in cursor:
+            text_string = (str(document['content']).decode('unicode-escape'))
+            words = preprocess.onlyNounceAndNames(text_string)
+            data.append(words)
+            ids.append(document['id'])
+            titles.append(document['title'])
+            uris.append(document['url'])
+    else:
+        for document in cursor:
+            text_string = (str(document['content']).decode('unicode-escape'))
+            data.append(text_string)
+            ids.append(document['id'])
+            titles.append(document['title'])
+            uris.append(document['url'])
 
     result = []
     vectorizer = TfidfVectorizer(stop_words='english')
@@ -31,6 +56,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
 
     # one result json per run
     jsn = {}    # result cluster json with params, features and docs
+    jsn['preprocess'] = preprocessing
     jsn['createdAt'] = str(datetime.datetime.now())    # set ID
     params_conf = model.get_params()
     params_conf['limit'] = limit
