@@ -4,6 +4,7 @@ from sklearn import metrics
 import rethinkdb as r
 import datetime
 import json
+import preprocess
 
 
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
@@ -13,7 +14,9 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     titles = []
     uris = []
     for document in cursor:
-        data.append(str(document['content']).decode('unicode-escape'))
+        text_string = (str(document['content']).decode('unicode-escape'))
+        words = preprocess.lemmatizer(text_string)
+        data.append(words)
         ids.append(document['id'])
         titles.append(document['title'])
         uris.append(document['url'])
