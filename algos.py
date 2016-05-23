@@ -14,7 +14,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     uris = []
     for document in cursor:
         text_string = (str(document['content']).decode('unicode-escape'))
-        words = preprocess.stemmer(text_string)
+        words = preprocess.onlyNounsAndNames(text_string)
         data.append(words)
         ids.append(document['id'])
         titles.append(document['title'])
