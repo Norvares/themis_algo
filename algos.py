@@ -34,6 +34,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     jsn['createdAt'] = str(datetime.datetime.now())    # set ID
     params_conf = model.get_params()
     params_conf['limit'] = limit
+    params_conf['n_features'] = n_features
     jsn['config'] = params_conf  # set CONFIG/ PARAMS
     jsn['data'] = []    # init DATA Array
 
