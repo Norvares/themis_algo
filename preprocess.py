@@ -20,10 +20,10 @@ def lemmatizer(content):
         wordnet_lemmatizer = WordNetLemmatizer()
         tokenized = nltk.word_tokenize(content)
         tagged = nltk.pos_tag(tokenized)
-        words = ' '.join(wordnet_lemmatizer.lemmatize(word, 'v') for word in tagged)
+        words = ' '.join(wordnet_lemmatizer.lemmatize(word, 'v') for word in content.split())
         return words
     except Exception, e:
-        print str(e)
+        print("lemmatizer failed")
 
 def stemmer(content):
     try:
