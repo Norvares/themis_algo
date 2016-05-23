@@ -39,6 +39,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             titles.append(document['title'])
             uris.append(document['url'])
     else:
+        preprocessing = None
         for document in cursor:
             text_string = (str(document['content']).decode('unicode-escape'))
             data.append(text_string)
