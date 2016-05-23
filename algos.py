@@ -5,6 +5,7 @@ import datetime
 import json
 import preprocess
 
+
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
            verbose, random_state, copy_x, n_jobs):
     data = []

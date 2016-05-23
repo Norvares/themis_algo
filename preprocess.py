@@ -23,3 +23,9 @@ def lemmatizer(content):
         tagged = nltk.pos_tag(tokenized)
         words = ' '.join(wordnet_lemmatizer.lemmatize(word, 'v') for word in tagged)
         return words
+
+def stemmer(content):
+    try:
+        stemmer = SnowballStemmer()
+        words = ' '.join(stemmer = SnowballStemmer((word, 'v') for word in tagged)
+        return words
