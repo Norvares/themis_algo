@@ -28,7 +28,7 @@ def lemmatizer(content):
 def stemmer(content):
     try:
         stemmer = SnowballStemmer()
-        words = ' '.join(stemmer = SnowballStemmer((word, 'v') for word in tagged)
+        words = ' '.join(stemmer.stem((word, 'v') for word in tagged)
         return words
     except Exception, e:
         print str(e)
