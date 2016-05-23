@@ -34,9 +34,9 @@ def meanshift(cursor):
     vectorizer = TfidfVectorizer(stop_words='english', max_df=0.95, min_df=2, max_features=10000)
     X = vectorizer.fit_transform(data)
     X = X.toarray()
-
+    print(X)
    # normalize dataset for easier parameter selection
-    X = StandardScaler().fit_transform(X)
+#    X = StandardScaler().fit_transform(X)
 
     # estimate bandwidth for mean shift
     bandwidth = estimate_bandwidth(X, quantile=0.2)
