@@ -36,7 +36,7 @@ n_jobs (default: 1)
 '''
 
 
-def runAlgo():
+def runAlgo(tableName):
     table = 'pages'
     db = 'themis'
     if(check_params()):
@@ -48,7 +48,7 @@ def runAlgo():
             cursor = r.db(db).table(table).limit(limit).run(c)
 
         jsonResult = algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs, preprocessing)
-        r.db("themis").table("results").insert(jsonResult).run(c)
+        r.db("themis").table(tableName).insert(jsonResult).run(c)
 
 def check_params():
     # limit => integer und > 0
@@ -124,4 +124,4 @@ copy_x = args.c
 n_jobs = args.nj
 preprocessing = args.pp
 
-runAlgo()
+runAlgo("results")
