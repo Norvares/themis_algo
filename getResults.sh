@@ -1,4 +1,8 @@
-for ((  i = 1 ;  i <= 10;  i++  ))
+#!/bin/bash
+
+for i in `seq 1 10`;
 do
-    python DBConnector.py -l 1000 -tk (i*10) -m 100000 -pp NounsLemma
+    COUNTER=$(($i * 100))
+    echo $COUNTER
+    python DBConnector.py -l 1000 -tk $COUNTER -m 100000 -pp NounsLemma
 done
