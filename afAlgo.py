@@ -1,5 +1,9 @@
-print(__doc__)
-
+import re
+import argparse
+import json
+import rethinkdb as r
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import AffinityPropagation
 from sklearn import metrics
 
@@ -20,14 +24,14 @@ def run():
 
         jsonResult = affinityPropagation(cursor)
         # TODO: create new result table!
-        #r.db("themis").table("results_meanshift").insert(jsonResult).run(c)
+        #r.db("themis").table("results_af").insert(jsonResult).run(c)
 
 def affinityPropagation(cursor):
     data = []
     for document in cursor:
         data.append(str(document['content']).decode('unicode-escape'))
 
-    vectorizer = TfidfVectorizer(stop_words='english', max_df=0.95, min_df=2, max_features=10000)
+    vectorizer = TfidfVectorizer(stop_words='english')
     X = vectorizer.fit_transform(data)
 
     # Compute Affinity Propagation
@@ -38,12 +42,12 @@ def affinityPropagation(cursor):
     n_clusters_ = len(cluster_centers_indices)
 
     print('Estimated number of clusters: %d' % n_clusters_)
-    print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
-    print("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
-    print("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
-    print("Adjusted Rand Index: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
-    print("Adjusted Mutual Information: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
-    print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, labels, metric='sqeuclidean'))
+#    print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+#    print("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
+#    print("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
+#    print("Adjusted Rand Index: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
+#    print("Adjusted Mutual Information: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+#    print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, labels, metric='sqeuclidean'))
 
 def check_params():
     # limit => integer und > 0
