@@ -5,9 +5,9 @@ import StringIO, json
 
 def dataToCSV():
     c = r.connect()
-    cursor = r.db("themis").table("trueKExperiment").run(c)
+    cursor = r.db("themis").table("tolExperiment").run(c)
     data  = json.dumps([OrderedDict([
-        ["clusters", item["config"]["n_clusters"]],
+        ["clusters", item["config"]["tol"]],
         ["coefficient", item["evaluation"]["SilhouetteCoefficient"]]]) for item in cursor])
     converted = json2csv(StringIO.StringIO(data))
     print(converted)
