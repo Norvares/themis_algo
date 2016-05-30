@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import AffinityPropagation
 from sklearn import metrics
-
+from sklearn.preprocessing import StandardScaler
 
 global limit
 
@@ -31,8 +31,7 @@ def affinityPropagation(cursor):
     for document in cursor:
         data.append(str(document['content']).decode('unicode-escape'))
 
-    vectorizer = TfidfVectorizer(stop_words='english')
-    X = vectorizer.fit_transform(data)
+    X = StandardScaler().fit_transform(data)
 
     # Compute Affinity Propagation
     af = AffinityPropagation(preference=-50).fit(X)
