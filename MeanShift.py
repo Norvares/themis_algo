@@ -3,7 +3,7 @@ import argparse
 import json
 import rethinkdb as r
 import numpy as np
-from sklearn.cluster import MeanShift, estimate_bandwidth
+from sklearn.cluster import MeanShift, estimate_bandwidth, KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
 
@@ -12,7 +12,7 @@ global limit
 
 def run():
     limit = 10
-    table = 'pagesNew2'
+    table = 'pages'
     db = 'themis'
     if(check_params()):
         c = r.connect()
@@ -39,7 +39,7 @@ def meanshift(cursor):
 #    X = StandardScaler().fit_transform(X)
 
     # estimate bandwidth for mean shift
-    bandwidth = estimate_bandwidth(X, quantile=0.2)
+    bandwidth = estimate_bandwidth(X, quantile=0.9)
 
     # create clustering estimator
     ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
