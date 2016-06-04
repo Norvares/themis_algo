@@ -1,11 +1,13 @@
 import re
 import argparse
+import unicodedata
 import json
 import rethinkdb as r
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import AffinityPropagation
 from sklearn import metrics
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import StandardScaler
 
 global limit
@@ -29,9 +31,13 @@ def run():
 def affinityPropagation(cursor):
     data = []
     for document in cursor:
-        data.append(str(document['content']).decode('unicode-escape'))
-
-    X = StandardScaler().fit_transform(data)
+        line = (str(document['content']).decode('unicode-escape'))
+        m = unicodedata.normalize('NFKD', line).encode('ascii', 'ignore')
+        data.append(m)
+    
+    vectorizer = CountVectorizer(min_df=1)
+    X = vectorizer.fit_transform(data)
+    #X = StandardScaler().fit_transform(Y)
 
     # Compute Affinity Propagation
     af = AffinityPropagation(preference=-50).fit(X)
