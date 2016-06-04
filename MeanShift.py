@@ -1,12 +1,13 @@
 import re
+import unicodedata
 import argparse
 import json
 import rethinkdb as r
 import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
 from sklearn.cluster import MeanShift, estimate_bandwidth, KMeans
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.preprocessing import StandardScaler
-
+from sklearn.preprocessing import StandardScaler, Normalizer
 
 global limit
 
@@ -29,17 +30,18 @@ def run():
 def meanshift(cursor):
     data = []
     for document in cursor:
-        data.append(str(document['content']).decode('unicode-escape'))
+        line = (str(document['content']).decode('unicode-escape'))
+        m = unicodedata.normalize('NFKD', line).encode('ascii', 'ignore')
+        data.append(m)
+    
+    countVectorized = CountVectorizer().fit_transform(data)    
+    tfidfVectorized = TfidfTransformer().fit_transform(countVectorized)
+    tfidfArray = tfidfVectorized.toarray()
 
-    vectorizer = CountVectorizer(min_df=1)
-    X = vectorizer.fit_transform(data)
-    X = X.toarray()
-
-   # normalize dataset for easier parameter selection
-    X = StandardScaler().fit_transform(X)
+    X = StandardScaler(with_mean=False).fit_transform(tfidfVectorized)
 
     # estimate bandwidth for mean shift
-    bandwidth = estimate_bandwidth(X, quantile=0.9)
+    bandwidth = estimate_bandwidth(X, quantile=0.3)
 
     # create clustering estimator
     ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
