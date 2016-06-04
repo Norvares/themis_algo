@@ -4,6 +4,7 @@ import argparse
 import json
 import rethinkdb as r
 import numpy as np
+from helper import dataToSpaceVector
 from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
 from sklearn.cluster import MeanShift, estimate_bandwidth, KMeans
 from sklearn.feature_extraction.text import CountVectorizer
@@ -33,12 +34,8 @@ def meanshift(cursor):
         line = (str(document['content']).decode('unicode-escape'))
         m = unicodedata.normalize('NFKD', line).encode('ascii', 'ignore')
         data.append(m)
-    
-    countVectorized = CountVectorizer().fit_transform(data)    
-    tfidfVectorized = TfidfTransformer().fit_transform(countVectorized)
-    tfidfArray = tfidfVectorized.toarray()
-
-    X = StandardScaler(with_mean=False).fit_transform(tfidfVectorized)
+   
+    X = dataToSpaceVector(data) 
 
     # estimate bandwidth for mean shift
     bandwidth = estimate_bandwidth(X, quantile=0.3)
