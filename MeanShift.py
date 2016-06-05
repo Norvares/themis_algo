@@ -13,7 +13,6 @@ from sklearn.preprocessing import StandardScaler, Normalizer
 global limit
 
 def run():
-    limit = 10
     table = 'pages'
     db = 'themis'
     if(check_params()):
@@ -35,7 +34,12 @@ def meanshift(cursor):
         m = unicodedata.normalize('NFKD', line).encode('ascii', 'ignore')
         data.append(m)
    
-    X = dataToSpaceVector(data) 
+    Vector = dataToSpaceVector(data)
+    #countVectorized = CountVectorizer().fit_transform(data)    
+    #tfidfVectorized = TfidfTransformer().fit_transform(countVectorized)
+    #tfidfArray = tfidfVectorized.toarray()
+
+    X = StandardScaler(with_mean=False).fit_transform(Vector)
 
     # estimate bandwidth for mean shift
     bandwidth = estimate_bandwidth(X, quantile=0.3)
@@ -64,7 +68,7 @@ def check_params():
 
 # Parse arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('-l', help = 'limit help', type = int, default = 100)
+parser.add_argument('-l', help = 'limit help', type = int, default = 10)
 args = parser.parse_args()
 
 limit = args.l

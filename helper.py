@@ -2,6 +2,7 @@ import rethinkdb as r
 from csvkit.convert.js import json2csv
 from collections import OrderedDict
 import StringIO, json
+from gensim import corpora, matutils
 
 def dataToCSV():
     c = r.connect()
@@ -21,7 +22,9 @@ def dataToSpaceVector(documents):
     # remove words that only appear once (this is considering all documents)
     from collections import defaultdict
     frequency = defaultdict(int)
+    numberOfCorpusFeatures = 0
     for text in texts:
+        numberOfCorpusFeatures = numberOfCorpusFeatures + 1
         for token in text:
             frequency[token] += 1
 
@@ -34,9 +37,11 @@ def dataToSpaceVector(documents):
     # dictionary.save('/tmp/example.dict')
     
     # convert to SparseVector
-    vector = [dictionary.doc2bow(text) for text in texts]
+    corpus = [dictionary.doc2bow(text) for text in texts]
     
     # this can be saved as well:
     # corpora.MmCorpus.serialize('/tmp/example.mm', vector)
-
-    return vector
+   
+    matrix = matutils.corpus2csc(corpus)
+    #matrix = matutils.corpus2dense(corpus, num_terms=numberOfCorpusFeatures) 
+    return matrix
