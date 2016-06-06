@@ -34,12 +34,16 @@ def meanshift(cursor):
         m = unicodedata.normalize('NFKD', line).encode('ascii', 'ignore')
         data.append(m)
    
-    Vector = dataToSpaceVector(data)
+    #vectorizer = TfidfVectorizer(stop_words='english')
+    #X = vectorizer.fit_transform(data)
+    #X = X.todense()
+    X = dataToSpaceVector(data)
     #countVectorized = CountVectorizer().fit_transform(data)    
     #tfidfVectorized = TfidfTransformer().fit_transform(countVectorized)
     #tfidfArray = tfidfVectorized.toarray()
-
-    X = StandardScaler(with_mean=False).fit_transform(Vector)
+    #X = StandardScaler().fit_transform(X)
+    #X = tfidfVectorized
+    #X = np.array(Vector)
 
     # estimate bandwidth for mean shift
     bandwidth = estimate_bandwidth(X, quantile=0.3)
@@ -68,7 +72,7 @@ def check_params():
 
 # Parse arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('-l', help = 'limit help', type = int, default = 10)
+parser.add_argument('-l', help = 'limit help', type = int, default = 100)
 args = parser.parse_args()
 
 limit = args.l

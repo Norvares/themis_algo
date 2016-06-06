@@ -3,6 +3,7 @@ from csvkit.convert.js import json2csv
 from collections import OrderedDict
 import StringIO, json
 from gensim import corpora, matutils
+from numpy import swapaxes
 
 def dataToCSV():
     c = r.connect()
@@ -22,9 +23,7 @@ def dataToSpaceVector(documents):
     # remove words that only appear once (this is considering all documents)
     from collections import defaultdict
     frequency = defaultdict(int)
-    numberOfCorpusFeatures = 0
     for text in texts:
-        numberOfCorpusFeatures = numberOfCorpusFeatures + 1
         for token in text:
             frequency[token] += 1
 
@@ -38,10 +37,16 @@ def dataToSpaceVector(documents):
     
     # convert to SparseVector
     corpus = [dictionary.doc2bow(text) for text in texts]
-    
+    #print(corpus)    
     # this can be saved as well:
     # corpora.MmCorpus.serialize('/tmp/example.mm', vector)
    
-    matrix = matutils.corpus2csc(corpus)
-    #matrix = matutils.corpus2dense(corpus, num_terms=numberOfCorpusFeatures) 
+    #matrix = matutils.corpus2csc(corpus)
+    #print(matrix)
+    numberOfCorpusFeatures = len(dictionary.keys())
+    matrix = matutils.corpus2dense(corpus, num_terms=numberOfCorpusFeatures)
+    print(matrix)
+    print(matrix.shape)
+    #x = matrix.swapaxes(0, 1) 
+    #print(x.shape)
     return matrix
