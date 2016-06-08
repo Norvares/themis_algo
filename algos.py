@@ -8,7 +8,7 @@ import preprocess
 
 
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
-           verbose, random_state, copy_x, n_jobs, preprocessing):
+           verbose, random_state, copy_x, n_jobs, preprocessing, min_df, max_df):
     data = []
     ids = []
     titles = []
@@ -66,7 +66,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             uris.append(document['url'])
 
     result = []
-    vectorizer = TfidfVectorizer(stop_words='english', max_df=0.5, max_features=10, min_df=1)
+    vectorizer = TfidfVectorizer(stop_words='english', min_df=min_df, max_df=max_df, max_features=n_features)
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init=init, n_init=n_init, max_iter=max_iter, tol=tol,
