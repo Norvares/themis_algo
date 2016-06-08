@@ -8,7 +8,10 @@ import preprocess
 
 
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
-           verbose, random_state, copy_x, n_jobs, preprocessing, min_df, max_df):
+           verbose, random_state, copy_x, n_jobs, preprocessing, mindf, maxdf):
+#    mindf = 0.0
+#    maxdf = 0.8
+
     data = []
     ids = []
     titles = []
@@ -66,7 +69,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             uris.append(document['url'])
 
     result = []
-    vectorizer = TfidfVectorizer(stop_words='english', min_df=min_df, max_df=max_df, max_features=n_features)
+    vectorizer = TfidfVectorizer(stop_words='english', max_features=n_features)
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init=init, n_init=n_init, max_iter=max_iter, tol=tol,
@@ -117,4 +120,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         jsn_tmp['features'] = ary_tmp_feat   # set array of features
         jsn_tmp['articles'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
+
+    idf = vectorizer.idf_
+    print dict(zip(vectorizer.get_feature_names(), idf))
     return (jsn)
