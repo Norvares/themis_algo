@@ -66,7 +66,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             uris.append(document['url'])
 
     result = []
-    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer = TfidfVectorizer(stop_words='english', max_df=0.5, max_features=10, min_df=1)
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init=init, n_init=n_init, max_iter=max_iter, tol=tol,
@@ -110,8 +110,10 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         jsn_tmp = {}    # temp json for each cluster
         ary_tmp_feat = []   # init temp array of features
         for ind in order_centroids[i, :n_features]:
+            print(' %s' % terms[ind])
             ary_tmp_feat.append(' %s' % terms[ind])  # append features
             result.append(' %s' % terms[ind])
+        print('')
         jsn_tmp['features'] = ary_tmp_feat   # set array of features
         jsn_tmp['articles'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
