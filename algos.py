@@ -8,7 +8,10 @@ import preprocess
 
 
 def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance,
-           verbose, random_state, copy_x, n_jobs, preprocessing):
+           verbose, random_state, copy_x, n_jobs, preprocessing, mindf, maxdf):
+#    mindf = 0.0
+#    maxdf = 0.8
+
     data = []
     ids = []
     titles = []
@@ -56,6 +59,15 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             ids.append(document['id'])
             titles.append(document['title'])
             uris.append(document['url'])
+    elif (preprocessing == "topten"):
+        for document in cursor:
+            text_string = (str(document['content']).decode('unicode-escape'))
+	    words = preprocess.onlyNounsAndNames(text_string)
+            words = preprocess.topTen(words)
+            data.append(words)
+            ids.append(document['id'])
+            titles.append(document['title'])
+            uris.append(document['url'])
     else:
         preprocessing = None
         for document in cursor:
@@ -66,7 +78,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             uris.append(document['url'])
 
     result = []
-    vectorizer = CountVectorizer(stop_words='english')
+    vectorizer = CountVectorizer(stop_words='english', max_features=n_features)
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init=init, n_init=n_init, max_iter=max_iter, tol=tol,
@@ -110,9 +122,14 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         jsn_tmp = {}    # temp json for each cluster
         ary_tmp_feat = []   # init temp array of features
         for ind in order_centroids[i, :n_features]:
+            print(' %s' % terms[ind])
             ary_tmp_feat.append(' %s' % terms[ind])  # append features
             result.append(' %s' % terms[ind])
+        print('')
         jsn_tmp['features'] = ary_tmp_feat   # set array of features
         jsn_tmp['articles'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
+
+    idf = vectorizer.idf_
+    print dict(zip(vectorizer.get_feature_names(), idf))
     return (jsn)
