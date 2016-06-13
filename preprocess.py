@@ -6,15 +6,13 @@ from nltk.stem import SnowballStemmer
 
 
 def onlyNounsAndNames(content):
-    try:
-        tokenized = nltk.word_tokenize(content)
-        tagged = nltk.pos_tag(tokenized)
-        words = ' '.join(word for word,tag in tagged if tag in ('NN', 'NNP') and word != 'mr')
-        return words
-    except Exception, e:
-        print str(e)
-
-
+    stoplist = set('mr mrs mr. mrs. ms ms.'.split())
+    text = ' '.join(word for word in content.lower().split() if word not in stoplist)
+    tokenized = nltk.word_tokenize(text)
+    tagged = nltk.pos_tag(tokenized)
+    words = ' '.join(word for word,tag in tagged if tag in ('NN', 'NNP') and word != 'mr')
+    return words
+    
 def lemmatizer(content):
     try:
         wordnet_lemmatizer = WordNetLemmatizer()
