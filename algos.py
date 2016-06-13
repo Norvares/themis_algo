@@ -148,7 +148,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
 
         # KMeans
         ax = fig.add_subplot(1, 3, 1)
-        for k, col in zip(range(n_clusters), colors):
+        for k, col in zip(range(true_k), colors):
             my_members = k_means_labels == k
             cluster_center = k_means_cluster_centers[k]
             ax.plot(X[my_members, 0], X[my_members, 1], 'w',

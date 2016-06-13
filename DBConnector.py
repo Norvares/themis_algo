@@ -109,7 +109,7 @@ parser.add_argument('-r', help = 'random_state help', default = None)
 parser.add_argument('-c', help = 'copy_x help', type = bool, default = True)
 parser.add_argument('-nj', help = 'n_jobs help', default = 1)
 parser.add_argument('-pp', help = 'preprocessing', default = 'None')
-parser.add_argument('-viz' help = 'visualization', type = bool, default = True)
+parser.add_argument('-viz', help = 'visualization', type = bool, default = True)
 
 args = parser.parse_args()
 
@@ -127,8 +127,5 @@ copy_x = args.c
 n_jobs = args.nj
 preprocessing = args.pp
 visualization = args.viz
-
-min_df = args.min_df
-max_df = args.max_df
 
 runAlgo("results")
