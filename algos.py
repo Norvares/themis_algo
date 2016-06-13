@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn import metrics
+from sklearn.decomposition import PCA
 import rethinkdb as r
 import datetime
 import json
@@ -98,14 +99,15 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
     jsn['config'] = params_conf  # set CONFIG/ PARAMS
     jsn['data'] = []    # init DATA Array
 
-    model.fit_predict(X)
+    reduced_data = PCA(n_components=2).fit_transform(X.toarray())
+
+    model.fit_predict(reduced_data)
     labels = model.labels_
-    score = metrics.silhouette_score(X, labels, metric='euclidean')
+    score = metrics.silhouette_score(reduced_data, labels, metric='euclidean')
     evaluationContent = {}
     evaluationContent['SilhouetteCoefficient'] = score
     jsn['evaluation'] = evaluationContent
-    predictions = (model.predict(X))
-    #predict_map = {}    # init dict, collect all articleIds per cluster
+    predictions = (model.predict(reduced_data))
     predict_map = {}    # init dict, collect all article details per cluster
 
     i = 0
@@ -125,10 +127,8 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         jsn_tmp = {}    # temp json for each cluster
         ary_tmp_feat = []   # init temp array of features
         for ind in order_centroids[i, :n_features]:
-            print(' %s' % terms[ind])
             ary_tmp_feat.append(' %s' % terms[ind])  # append features
             result.append(' %s' % terms[ind])
-        print('')
         jsn_tmp['features'] = ary_tmp_feat   # set array of features
         jsn_tmp['articles'] = predict_map[i]  # set array of docs
         jsn['data'].append(jsn_tmp) # write jsn_tmp to jsn['data']
@@ -142,7 +142,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
 
         ##############################################################################
         # Plot result
-        fig = plt.figure(figsize=(8, 3))
+        fig = plt.figure(figsize=(8, 5))
         fig.subplots_adjust(left=0.02, right=0.98, bottom=0.05, top=0.9)
         colors = ['#4EACC5', '#FF9C34', '#4E9A06']
 
@@ -151,7 +151,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         for k, col in zip(range(true_k), colors):
             my_members = k_means_labels == k
             cluster_center = k_means_cluster_centers[k]
-            ax.plot(X[my_members, 0], X[my_members, 1], 'w',
+            ax.plot(reduced_data[my_members, 0], reduced_data[my_members, 1], 'w',
                     markerfacecolor=col, marker='.')
             ax.plot(cluster_center[0], cluster_center[1], 'o', markerfacecolor=col,
                     markeredgecolor='k', markersize=6)
