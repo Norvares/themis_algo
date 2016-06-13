@@ -30,3 +30,17 @@ def stemmer(content):
         return words
     except Exception, e:
         print("stemmer failed")
+
+def topTen(document):
+    stoplist = set('for a of the and to in mr mrs mr. mrs. ms.'.split())
+    text = [word for word in document.lower().split() if word not in stoplist]
+    count = defaultdict(int)
+    for word in text:
+	count[word] += 1
+    sort = OrderedDict()
+    for key, value in sorted(count.iteritems(), key=lambda (k,v): (v,k)):
+	sort[key] = value
+    topTen = Counter(sort).most_common(10)
+    words = ' '.join(key for key,value in topTen)
+    return words
+
