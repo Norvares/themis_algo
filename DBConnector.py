@@ -37,7 +37,7 @@ n_jobs (default: 1)
 
 
 def runAlgo(tableName):
-    table = 'pages'
+    table = 'pages2'
     db = 'themis'
     if(check_params()):
         c = r.connect()
