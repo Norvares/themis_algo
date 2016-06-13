@@ -1,4 +1,4 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.cluster import KMeans
 from sklearn import metrics
 import rethinkdb as r
@@ -66,7 +66,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
             uris.append(document['url'])
 
     result = []
-    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer = CountVectorizer(stop_words='english')
     X = vectorizer.fit_transform(data)
 
     model = KMeans(n_clusters=true_k, init=init, n_init=n_init, max_iter=max_iter, tol=tol,
