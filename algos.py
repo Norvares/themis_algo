@@ -144,7 +144,7 @@ def kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, preco
         # Plot result
         fig = plt.figure(figsize=(8, 5))
         fig.subplots_adjust(left=0.02, right=0.98, bottom=0.05, top=0.9)
-        colors = ['#4EACC5', '#FF9C34', '#4E9A06']
+        colors = ['#4EACC5', '#FF9C34', '#4E9A06', '#468a05', '#a6cc82']
 
         # KMeans
         ax = fig.add_subplot(1, 3, 1)
