@@ -17,8 +17,7 @@ global random_state
 global copy_x
 global n_jobs
 global preprocessing
-global max_df
-global min_df
+global visualization
 '''
 Parameter Liste:
 limit = max. Anzahl zu ladener Datensaetze
@@ -39,7 +38,7 @@ n_jobs (default: 1)
 
 
 def runAlgo(tableName):
-    table = 'pages2'
+    table = 'pages'
     db = 'themis'
     if(check_params()):
         c = r.connect()
@@ -49,7 +48,7 @@ def runAlgo(tableName):
         else:
             cursor = r.db(db).table(table).limit(limit).run(c)
 
-        jsonResult = algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs, preprocessing, min_df, max_df)
+        jsonResult = algos.kmeans(cursor, limit, n_features, true_k, init, n_init, max_iter, tol, precompute_distance, verbose, random_state, copy_x, n_jobs, preprocessing, visualization)
         r.db("themis").table(tableName).insert(jsonResult).run(c)
 
 def check_params():
@@ -110,9 +109,8 @@ parser.add_argument('-r', help = 'random_state help', default = None)
 parser.add_argument('-c', help = 'copy_x help', type = bool, default = True)
 parser.add_argument('-nj', help = 'n_jobs help', default = 1)
 parser.add_argument('-pp', help = 'preprocessing', default = 'None')
+parser.add_argument('-viz', help = 'visualization', type = bool, default = True)
 
-parser.add_argument('-min_df', help = 'min_df', default = 1)
-parser.add_argument('-max_df', help = 'max_df', default = 1.0)
 args = parser.parse_args()
 
 limit = args.l
@@ -128,8 +126,6 @@ random_state = args.r
 copy_x = args.c
 n_jobs = args.nj
 preprocessing = args.pp
-
-min_df = args.min_df
-max_df = args.max_df
+visualization = args.viz
 
 runAlgo("results")
