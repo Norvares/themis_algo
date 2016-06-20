@@ -1,0 +1,20 @@
+2016-06-20T09:37:04.110624742 0.059232s notice: Recursively removing directory /home/themis/Dokumente/themis/themis_algo/rethinkdb_data/tmp
+2016-06-20T09:37:04.118565523 0.067175s notice: Initializing directory /home/themis/Dokumente/themis/themis_algo/rethinkdb_data
+2016-06-20T09:37:04.118806290 0.067412s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/themis/Dokumente/themis/themis_algo/rethinkdb_data' did not already exist or is empty.)
+2016-06-20T09:37:04.118831922 0.067438s notice: Running rethinkdb 2.3.4~0trusty (GCC 4.8.2)...
+2016-06-20T09:37:04.125540852 0.074149s notice: Running on Linux 4.2.0-38-generic x86_64
+2016-06-20T09:37:04.131063814 0.079671s notice: Loading data from directory /home/themis/Dokumente/themis/themis_algo/rethinkdb_data
+2016-06-20T09:37:04.202423604 0.151035s info: Automatically using cache size of 1184 MB
+2016-06-20T09:37:04.205131898 0.153738s notice: Listening for intracluster connections on port 29015
+2016-06-20T09:37:04.214118930 0.162725s notice: Listening for client driver connections on port 28015
+2016-06-20T09:37:04.216934842 0.165541s notice: Listening for administrative HTTP connections on port 8080
+2016-06-20T09:37:04.216941357 0.165547s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-06-20T09:37:04.216945886 0.165552s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-06-20T09:37:04.216948178 0.165554s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2016-06-20T09:37:04.216951707 0.165557s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2016-06-20T09:37:04.216954924 0.165561s notice: Server ready, "themis_VirtualBox_dkb" fee1192a-2908-4f38-8504-ed929cb28759
+2016-06-20T09:38:51.385069597 107.333676s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2016-06-20T09:38:51.385223359 107.333829s notice: Shutting down client connections...
+2016-06-20T09:38:51.385294786 107.333901s notice: All client connections closed.
+2016-06-20T09:38:51.385324021 107.333930s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2016-06-20T09:38:51.387125894 107.335732s notice: Storage engine shut down.
